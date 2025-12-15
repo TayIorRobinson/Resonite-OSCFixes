@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>OSCFixes</RootNamespace>
+        <AssemblyName>OSCFixes</AssemblyName>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <FileAlignment>512</FileAlignment>
+        <LangVersion>10.0</LangVersion>
+        <Nullable>enable</Nullable>
+        <Deterministic>true</Deterministic>
+        <!-- Change CopyToMods to true if you'd like builds to be moved into the Mods folder automatically-->
+        <CopyToMods Condition="'$(CopyToMods)'==''">true</CopyToMods>
+        <DebugType Condition="'$(Configuration)'=='Debug'">embedded</DebugType>
+        <NoWarn>$(NoWarn);1701;1702;CA1416;WFO2001</NoWarn>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(ResonitePath)'==''">
+        <ResonitePath Condition="Exists('C:\Program Files (x86)\Steam\steamapps\common\Resonite\')">C:\Program Files (x86)\Steam\steamapps\common\Resonite\</ResonitePath>
+        <ResonitePath Condition="Exists('$(HOME)/.steam/steam/steamapps/common/Resonite/')">$(HOME)/.steam/steam/steamapps/common/Resonite/</ResonitePath>
+        <ResonitePath Condition="Exists('D:\SteamLibrary\steamapps\common\Resonite\')">D:\SteamLibrary\steamapps\common\Resonite\</ResonitePath>
+    </PropertyGroup>
+
+
+    <PropertyGroup Condition="'$(FrooxEnginePath)'==''">
+        <FrooxEnginePath Condition="Exists('$(ResonitePath)Resonite_Data\Managed\FrooxEngine.dll')">$(ResonitePath)Resonite_Data\Managed\</FrooxEnginePath>
+        <FrooxEnginePath Condition="Exists('$(ResonitePath)\FrooxEngine.dll')">$(ResonitePath)</FrooxEnginePath>
+    </PropertyGroup>
+
+
+    <ItemGroup>
+        <SupportedPlatform Include="Windows" />
+
+        <Reference Include="ResoniteModLoader">
+            <HintPath>$(ResonitePath)Libraries\ResoniteModLoader.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="HarmonyLib">
+            <HintPath>$(ResonitePath)rml_libs\0Harmony.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="HotReloader">
+            <HintPath>$(ResonitePath)rml_libs\ResoniteHotReloadLib.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="FrooxEngine">
+            <HintPath>$(FrooxEnginePath)FrooxEngine.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="FrooxEngine.Store">
+            <HintPath>$(FrooxEnginePath)FrooxEngine.Store.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Elements.Core">
+            <HintPath>$(FrooxEnginePath)Elements.Core.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="Rug.Osc">
+            <HintPath>$(FrooxEnginePath)Rug.Osc.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+    </ItemGroup>
+    
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CopyToMods)'=='true'">
+        <Message Text="Attempting to copy $(TargetFileName) to $(ResonitePath)rml_mods" Importance="high" />
+        <Copy SourceFiles="$(TargetDir)$(TargetFileName)" DestinationFolder="$(ResonitePath)rml_mods\HotReloadMods" ContinueOnError="true" />
+        <Copy SourceFiles="$(TargetDir)$(TargetFileName)" DestinationFolder="$(ResonitePath)rml_mods" ContinueOnError="true" />
+        <!--    <Exec Command="start steam://launch/2519830 " />-->
+    </Target>
+
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+        <!--    <Exec Command="taskkill /f /im Renderite.Renderer.exe&#xA;taskkill /f /im Renderite.Host.exe&#xA;taskkill /f /im Resonite.exe" IgnoreExitCode="true" />-->
+    </Target>
+
+</Project>
