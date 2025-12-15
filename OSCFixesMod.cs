@@ -1,17 +1,11 @@
-﻿using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Reflection;
-using System.Text.Json;
+﻿using System.Reflection;
 using ResoniteModLoader;
-using System.Text.Json.Nodes;
-using Elements.Core;
 using FrooxEngine;
-using FrooxEngine.ProtoFlux;
-using FrooxEngine.Store;
 using HarmonyLib;
-using ResoniteHotReloadLib;
 using Rug.Osc;
+#if DEBUG
+using ResoniteHotReloadLib;
+#endif
 
     
 namespace OSCFixes;
@@ -27,7 +21,9 @@ public class OSCFixesMod : ResoniteMod {
     private const string harmonyId = "one.robins.OSCFixes";
     public override void OnEngineInit() {
         Msg("Initialising!");
+        #if DEBUG
         HotReloader.RegisterForHotReload(this);
+        #endif 
         Init();
     }
 

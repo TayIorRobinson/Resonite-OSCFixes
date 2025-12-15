@@ -40,16 +40,8 @@
             <HintPath>$(ResonitePath)rml_libs\0Harmony.dll</HintPath>
             <Private>False</Private>
         </Reference>
-        <Reference Include="HotReloader">
-            <HintPath>$(ResonitePath)rml_libs\ResoniteHotReloadLib.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
         <Reference Include="FrooxEngine">
             <HintPath>$(FrooxEnginePath)FrooxEngine.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
-        <Reference Include="FrooxEngine.Store">
-            <HintPath>$(FrooxEnginePath)FrooxEngine.Store.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="Elements.Core">
@@ -58,6 +50,12 @@
         </Reference>
         <Reference Include="Rug.Osc">
             <HintPath>$(FrooxEnginePath)Rug.Osc.dll</HintPath>
+            <Private>False</Private>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup Condition="'$(Configuration)'=='Debug'">
+        <Reference Include="HotReloader">
+            <HintPath>$(ResonitePath)rml_libs\ResoniteHotReloadLib.dll</HintPath>
             <Private>False</Private>
         </Reference>
     </ItemGroup>
